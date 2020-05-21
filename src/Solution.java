@@ -1,23 +1,37 @@
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.List;
 
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
 class Solution {
-
-    public int[] dailyTemperatures(int[] T) {
-        Stack<Integer> stack = new Stack<>();
-        int[] res = new int[T.length];
-        for (int i = 0; i < T.length; i++) {
-            int cur = T[i];
-            if(stack.isEmpty() || cur<= stack.peek()){
-                stack.push(i);
-            }else{
-                while(!stack.isEmpty() && cur>stack.peek()){
-                    int prev = stack.pop();
-                    res[prev] = i - prev;
-                }
-                stack.push(i)
-;            }
-
-
+    public List<Integer> preorderTraversal(TreeNode root) {
+        Deque<TreeNode> stack = new ArrayDeque<>();
+        TreeNode cur = root;
+        List<Integer> res = new ArrayList<>();
+        while(cur != null){
+            res.add(cur.val);
+            if(cur.right!=null){
+                stack.push(cur.right);
+            }
+            cur = cur.left;
+            if(cur == null && !stack.isEmpty()){
+                cur = stack.pop();
+            }
         }
 
         return res;
